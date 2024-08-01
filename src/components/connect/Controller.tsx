@@ -15,7 +15,7 @@ const style = {
 };
 export function ConnectWallet(){
     const [open, setOpen] = useState(false);
-    const {providers, connectedActiveAccounts, activeAddress} = useWallet()
+    const {providers, activeAddress} = useWallet()
     const handleOpen = () => {
         console.log('Open')
         setOpen(true)

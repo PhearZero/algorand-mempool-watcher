@@ -15,7 +15,7 @@ const style = {
 };
 export function ConnectWallet(){
     const [open, setOpen] = useState(false);
-    const {providers, connectedActiveAccounts, activeAddress} = useWallet()
+    const {providers, activeAddress} = useWallet()
     const handleOpen = () => {
         console.log('Open')
         setOpen(true)
@@ -40,7 +40,7 @@ export function ConnectWallet(){
                         return (
                             <Box key={item.metadata.id}>
                                 <img height={55} width={55} src={item.metadata.icon} alt={item.metadata.name} />
-                                <Button onClick={()=>item.connect(undefined, true).catch(e=>{console.log('got it')})}>Connect</Button>
+                                <Button onClick={()=>item.connect(undefined, true).catch(()=>{console.log('got it')})}>Connect</Button>
                             </Box>
                         )
                     })}

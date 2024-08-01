@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {useStore} from "../store.ts";
+import {PendingTxn, useStore} from "../store.ts";
 import {useQuery} from "@tanstack/react-query";
 import {baseServer, port, token} from "../api.ts";
 import {Mutex, Semaphore} from "async-mutex";
@@ -32,7 +32,7 @@ export function fetchPendingTransactionInformationSync(txId: string, signal: Abo
  * @param heartbeat - A value that changes when the transaction should be checked again
  * @param ratelimit - If true, the hook will use a Mutex. Otherwise, it will use a Semaphore
  */
-export function usePendingTxn(txn, heartbeat, ratelimit = true){
+export function usePendingTxn(txn: PendingTxn, heartbeat: number, ratelimit = true){
     const {id, round} = txn
 
     const [enabled, setEnabled] = useState(true)

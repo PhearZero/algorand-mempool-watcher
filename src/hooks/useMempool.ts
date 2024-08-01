@@ -1,9 +1,9 @@
 import {useEffect} from "react";
 import {computeTransactionId} from "../api.ts";
-import {useStore} from "../store.ts";
+import {TransactionType, useStore} from "../store.ts";
 import algosdk from "algosdk";
 
-type MemPoolTxn = {txn: {type: string}}
+type MemPoolTxn = {txn: {type: TransactionType}}
 export function useMempool(algod: algosdk.Algodv2 | null, heartbeat: number){
     const updateTransaction = useStore((state) => state.updateTransaction)
     useEffect(() => {
@@ -11,7 +11,7 @@ export function useMempool(algod: algosdk.Algodv2 | null, heartbeat: number){
         algod.pendingTransactionsInformation().do().then((res: Record<string, MemPoolTxn[]>)=>{
             const txns = res['top-transactions'];
             if(txns.length !== 0 ){
-                txns.forEach((txn: {txn: {type: string}})=>{
+                txns.forEach((txn: {txn: {type: TransactionType}})=>{
                     updateTransaction({
                         id: computeTransactionId(txn),
                         round: heartbeat,

@@ -1,7 +1,4 @@
 import algosdk from 'algosdk'
-import {Mutex} from "async-mutex";
-
-const fetchMutex = new Mutex();
 
 export const baseServer = 'https://xna-mainnet-api.algonode.cloud'
 export const port = 443

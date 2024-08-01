@@ -8,29 +8,10 @@ import {useHeartbeat} from "./hooks/useHeartbeat.ts";
 import {useMempool} from "./hooks/useMempool.ts";
 import {algod as testingAlgod} from './api.ts'
 function App() {
-    const [algod, setAlgod] = useState<algosdk.Algodv2 | null>(testingAlgod)
+    const [algod] = useState<algosdk.Algodv2 | null>(testingAlgod)
     const txnDict = useStore((state) => state.dictionary)
     const heartbeat = useHeartbeat(algod)
     useMempool(algod, heartbeat)
-
-    // useEffect(() => {
-    //     algod.pendingTransactionsInformation().do().then((res)=>{
-    //         if(res['top-transactions'].length !== 0 ){
-    //             // setTxn(res['top-transactions'][0])
-    //             res['top-transactions'].forEach((txn)=>{
-    //               updateTransaction({
-    //                   id: computeTransactionId(txn),
-    //                   round: heartbeat,
-    //                   status: 'unknown',
-    //                   type: txn.txn.type,
-    //                   startedAt: Date.now(),
-    //                 })
-    //             })
-    //         }
-    //     })
-    // }, [heartbeat]);
-
-
 
     return (
         <>
@@ -54,15 +35,15 @@ function App() {
                 resultArray[chunkIndex].push(item)
 
                 return resultArray
-            }, []).map((chunk, index)=>{
+            }, [] as Record<string, any>[]).map((chunk)=>{
                 return (
                     <>
-                        {chunk.map((k) => {
+                        {chunk.map((k: string) => {
                             const {id, round: dictRound, status} = txnDict[k]
                             return (
-                                <Grid item>
+                                <Grid item key={id}>
                                 <PendingTxnCell
-                                    key={id}
+                                    key={`${id}-cell`}
                                     id={id}
                                     round={dictRound}
                                     status={status}

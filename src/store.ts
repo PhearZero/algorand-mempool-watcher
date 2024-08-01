@@ -1,10 +1,17 @@
 import { create } from 'zustand'
 
-type PendingTxn = {
+export type TransactionType = 'pay' | 'axfer' | 'acfg'  | 'afrz' | 'appl' | 'stpf' | 'keyreg'
+
+export type PendingTxn = {
     id: string
     round: number
-    state: string
-    type: 'pay' | 'axfer' | 'acfg'  | 'afrz' | 'appl' | 'stpf' | 'keyreg'
+    status: string,
+    heartbeat?: number
+    startedAt?: number
+    finishedAt?: number
+    confirmed?: number
+    failed?: string
+    type?: TransactionType
 }
 
 type TxnLookup = {
@@ -13,7 +20,13 @@ type TxnLookup = {
 
 const BLOCK_MEMORY = 40;
 
-export const useStore = create((set) => ({
+type StoreState = {
+    dictionary: TxnLookup
+    round: number
+    setRound: (round: number) => void
+    updateTransaction: (txn: PendingTxn) => void
+}
+export const useStore = create<StoreState>((set) => ({
     dictionary: {},
     round: 0,
     setRound: (round: number) => {
